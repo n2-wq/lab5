@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 1 - The HTML5 Canvas</title>
+</head>
+<body>
+  <!-- the drawing surface; width/height set its pixel size -->
+  <canvas id="myCanvas" width="500" height="500"></canvas>
+
+  <script>
+    // get the canvas element and its 2D drawing context ("the pen")
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+
+    // green background: one filled rectangle covering the whole canvas
+    ctx.fillStyle = "lightgreen";
+    ctx.fillRect(0, 0, 500, 500);
+
+    // face: big yellow circle with a black outline
+    ctx.beginPath();
+    ctx.arc(250, 205, 155, 0, 2 * Math.PI);   // centre (250,205), radius 155, full turn
+    ctx.fillStyle = "yellow";
+    ctx.fill();
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // eyes: two small filled circles
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.arc(190, 165, 14, 0, 2 * Math.PI);    // left eye
+    ctx.fill();
+    ctx.beginPath();                          // start a new path for the second eye
+    ctx.arc(310, 165, 14, 0, 2 * Math.PI);    // right eye
+    ctx.fill();
+
+    // nose: a vertical line drawn from the centre downwards
+    ctx.beginPath();
+    ctx.moveTo(250, 205);
+    ctx.lineTo(250, 265);
+    ctx.stroke();
+
+    // mouth: an arc swept clockwise past PI/2 (straight down) -> a smile
+    ctx.beginPath();
+    ctx.arc(250, 250, 85, 0.1 * Math.PI, 0.9 * Math.PI);
+    ctx.stroke();
+
+    // caption text at the bottom
+    ctx.fillStyle = "green";
+    ctx.font = "bold 30px Arial";
+    ctx.textAlign = "center";                 // treat x as the centre of the text
+    ctx.fillText("The Canvas brought me to life!", 250, 450);
+  </script>
+</body>
+</html>

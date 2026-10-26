@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 2 - HTML5 Geolocation</title>
+</head>
+<body>
+  <p>Click the button to get your coordinates:</p>
+
+  <!-- clicking the button calls getGeolocation() from geolocation.js -->
+  <button onclick="getGeolocation()">Get Geolocation</button>
+
+  <!-- the result is printed into this paragraph -->
+  <p id="geolocation"></p>
+
+  <!-- must come after the elements above: the script looks for id="geolocation" -->
+  <script src="geolocation.js"></script>
+</body>
+</html>

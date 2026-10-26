@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 3 - To-Do List with Local Storage</title>
+  <style>
+    li button { margin-left: 10px; }
+  </style>
+</head>
+<body>
+  <h2>My To-Do List</h2>
+
+  <!-- input box + add button -->
+  <input type="text" id="taskInput" placeholder="Enter a task">
+  <button id="addBtn">Add Task</button>
+
+  <!-- the task list -->
+  <ul id="taskList"></ul>
+
+  <script>
+    // data model: this array is the single source of truth
+    let tasks = [];
+
+    // localStorage stores strings only, so we convert with JSON
+    let saved = localStorage.getItem("tasks");
+    if (saved) {
+      tasks = JSON.parse(saved);          // string -> array
+    }
+
+    // write the whole array back to localStorage
+    function saveTasks() {
+      localStorage.setItem("tasks", JSON.stringify(tasks));   // array -> string
+    }
+
+    // draw the whole list again from the array
+    function renderTasks() {
+      let list = document.getElementById("taskList");
+      list.innerHTML = "";                // clear, then redraw everything
+      tasks.forEach(function (task, index) {
+        let li = document.createElement("li");
+        li.textContent = task;
+
+        // each item gets its own delete button
+        let delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.onclick = function () {
+          tasks.splice(index, 1);         // remove this item from the array
+          saveTasks();
+          renderTasks();
+        };
+        li.appendChild(delBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function addTask() {
+      let input = document.getElementById("taskInput");
+      let task = input.value.trim();      // remove leading/trailing spaces
+      if (task === "") return;            // ignore empty input
+      tasks.push(task);
+      saveTasks();
+      renderTasks();
+      input.value = "";                   // clear the box for the next task
+    }
+
+    document.getElementById("addBtn").onclick = addTask;
+
+    // pressing Enter does the same as clicking Add Task
+    document.getElementById("taskInput").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") addTask();
+    });
+
+    // show whatever was restored from localStorage on page load
+    renderTasks();
+  </script>
+</body>
+</html>
